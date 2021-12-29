@@ -1,0 +1,157 @@
+#home-link{
+    text-decoration: none;
+}
+
+h1 {
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+}
+
+.robots {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.head, 
+.left_arm, 
+.torso, 
+.right_arm, 
+.left_leg, 
+.right_leg {
+	 background-color: #5f93e8;
+}
+
+.head { 
+	width: 200px; 
+	margin: 0 auto; 
+	height: 150px; 
+	border-radius: 200px 200px 0 0; 
+	margin-bottom: 10px;
+} 
+
+.eyes {
+	display: flex;
+}
+.left_eye, .right_eye { 
+	width: 20px; 
+	height: 20px; 
+	border-radius: 15px; 
+	background-color: white;
+	color: black;
+	line-height: 25px;
+	text-align: center;
+	vertical-align: bottom;
+} 
+.left_eye { 
+	/* These properties are new and you haven't encountered
+	in this course. Check out CSS Tricks to see what it does! */
+	position: relative; 
+	top: 100px; 
+	left: 40px; 
+} 
+
+.right_eye { 
+	position: relative; 
+	top: 100px; 
+	left: 120px;
+}
+
+
+.head:hover {
+	width: 250px;
+    transition: 1s ease-in-out;
+}
+
+.upper_body { 
+	width: 300px; 
+	height: 150px;
+	display: flex; 
+} 
+
+.left_arm, .right_arm { 
+	width: 40px; 
+	height: 125px;
+	border-radius: 100px; 
+} 
+
+.left_arm { 
+	margin-right: 10px; 
+	transform-origin: top;
+	animation: waving-hands 3s ease 0.5s infinite both normal;
+} 
+
+.right_arm { 
+	margin-left: 10px; 
+} 
+
+.right_arm::after{
+	content: "Home";
+	display: inline-block;
+	position: relative;
+	right: 15px;
+	top: 35px;
+	transform: rotate(-90deg);
+	font-size: 25px;
+	font-family: 'Roboto', sans-serif;
+	color: white;
+}
+
+@keyframes waving-hands {
+	0%{
+		transform: rotate(105deg);
+	}
+	25%{
+		transform: rotate(135deg);
+	}
+	50%{
+		transform: rotate(105deg);
+	}
+	100%{
+		transform: rotate(100deg);
+	}
+}
+
+.torso { 
+	width: 200px; 
+	height: 200px;
+	border-radius: 0 0 50px 50px; 
+	text-align: center;
+	vertical-align: middle;
+	line-height: 200px;
+	font-family: 'Roboto', sans-serif;
+	color: white;
+	font-weight: bolder;
+	font-size: 50px;
+} 
+
+.lower_body { 
+	width: 200px; 
+	height: 200px;
+	/* This is another useful property. Hmm what do you think it does?*/
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-around;
+} 
+
+.left_leg, .right_leg { 
+	width: 40px; 
+	height: 120px;
+	border-radius: 0 0 100px 100px; 
+} 
+
+.left_leg:hover {
+	-webkit-transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    -o-transform: rotate(20deg);
+    -ms-transform: rotate(20deg);
+    transform: rotate(20deg);
+}
+
+.right_leg:hover { 
+	-webkit-transform: rotate(-20deg);
+    -moz-transform: rotate(-20deg);
+    -o-transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    transform: rotate(-20deg);
+}
