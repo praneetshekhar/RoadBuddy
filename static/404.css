@@ -85,16 +85,17 @@ h1 {
 	margin-left: 10px; 
 } 
 
-.right_arm::after{
-	content: "Home";
+.left_arm::after{
+	content: "Take me home";
 	display: inline-block;
 	position: relative;
-	right: 15px;
-	top: 35px;
+	right: 30px;
+	top: 50px;
 	transform: rotate(-90deg);
-	font-size: 25px;
+	font-size: 15px;
 	font-family: 'Roboto', sans-serif;
 	color: white;
+	white-space: nowrap;
 }
 
 @keyframes waving-hands {
@@ -110,6 +111,10 @@ h1 {
 	100%{
 		transform: rotate(100deg);
 	}
+}
+
+.left_arm:hover{
+	animation-play-state: paused;
 }
 
 .torso { 
