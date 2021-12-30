@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
-from directions import mapbox_navigate, mapquest_api
-#from pollution import pollutants
-#import pprint
+from directions import tomtom_getpoints
+from pollution import routePollutionScore
 
 app = Flask(__name__)
 
@@ -10,10 +9,17 @@ def index():
     if request.method == 'POST':
         start = request.form['start-point']
         destination = request.form['destination']
-        #route generation
-        #direction_JSONbeads = mapbox_navigate(start, destination)
-        direction_JSONbeads = mapquest_api(start, destination)
-        return render_template('index.html', directions_JSON=direction_JSONbeads)
+
+        direction_JSONbeads = tomtom_getpoints(start, destination)
+        
+        route1_score = routePollutionScore(direction_JSONbeads["optimizedRoute1"])
+        route2_score = routePollutionScore(direction_JSONbeads["optimizedRoute2"])
+        if route1_score < route2_score:
+            directions = direction_JSONbeads['optimizedRoute1']
+        else:
+            directions = direction_JSONbeads['optimizedRoute2']
+        
+        return render_template('index.html', directions_JSON=directions)
     else:
         return render_template('index.html', directions_JSON=None) 
 
@@ -25,5 +31,4 @@ def page_not_found(error):
 #def least_polluted_route():
 
 if __name__ == "__main__":
-    #app.run(host='0.0.0.0')
-    app.run()
+    app.run(host='0.0.0.0')
