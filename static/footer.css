@@ -1,0 +1,51 @@
+@keyframes heartbeat {
+    0% {
+        transform: scale(0.8);
+    }
+    25% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.heart-rib{
+    position: relative;
+    width: 25px;
+    transform: rotate(45deg);
+    margin: 50px;
+}
+.heart::before{
+    content: "Made with";
+    left: -50px;
+}
+.heart{
+    background: crimson;
+    height: 25px;
+    width: 25px;
+    position: relative;
+    animation: heartbeat 1s cubic-bezier(0,1.5,1,1.5) 1s infinite forwards normal;
+
+}
+.heart::after{
+    content: "";
+    width: 25px;
+    height: 25px;
+    background: crimson;
+    position: absolute;
+    left: -12.5px;
+    border-radius: 50%;
+}
+.heart::before{
+    content: "";
+    width: 25px;
+    height: 25px;
+    background: crimson;
+    position: absolute;
+    top: -12.5px;
+    border-radius: 50%;
+}

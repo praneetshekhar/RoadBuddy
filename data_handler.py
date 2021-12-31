@@ -1,5 +1,4 @@
 import pandas as pd
-from pandas.core.frame import DataFrame
 import math
 
 def get_data(data):

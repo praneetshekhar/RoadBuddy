@@ -8,11 +8,11 @@ def pollutants(lat, lng):
 
     query = {"token": api_key_world_aqi}
 
-    full_response = requests.request('GET', url, params=query)
+    full_response = requests.request('GET', url, params=query).json()
     if full_response["status"] == "ok":
         
-        pollutants = full_response['data']['iaqi']
-        pollutant_vector = [pollutants["dew"]["v"],pollutants["h"]["v"],pollutants["no2"]["v"],pollutants["o3"]["v"],pollutants["p"]["v"],pollutants["pm10"]["v"],pollutants["pm2.5"]["v"]]
+        pollutants = full_response['data']['iaqi'].values()
+        pollutant_vector = [x['v'] for x in list(pollutants)]
         aqi = full_response['data']['aqi']
         pollution_loc_score = stats.median_high([stats.median_high(pollutant_vector), aqi])
 

@@ -26,7 +26,7 @@ def tomtom_getpoints(start, end):
         route1 = dh.get_data(coords1)
         usable_route = dh.reduce_dataset(route, route_dist)
         usable_route1 = dh.reduce_dataset(route1, route1_dist)
-    return {"optimizedRoute1": usable_route.to_json(), "optimizedRoute2": usable_route1.to_json()}
+    return {"optimizedRoute1": usable_route, "optimizedRoute2": usable_route1}
 
 #Deprecated, waypoints functionality might still be useful
 def mapbox_navigate(start, end):
@@ -46,6 +46,7 @@ def mapbox_navigate(start, end):
         return location_gradients  
 
 #Deprecated
+
 def mapquest_api(start, destination):
     key = "TAfEZarizs3jiXkQ9ZgxvLOVEqIPFuHH"
     url = f"http://www.mapquestapi.com/directions/v2/alternateroutes?key={key}&outFormat=xml"
