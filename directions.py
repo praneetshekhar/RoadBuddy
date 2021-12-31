@@ -4,8 +4,8 @@ import geocoder
 import data_handler as dh
 import pandas as pd
 
-from dotenv import load_dotenv
-load_dotenv()
+#from dotenv import load_dotenv
+#load_dotenv()
 ### Flask loads the nearest .env or .flaskenv automatically and does the load_dotenv()
 ### Hence, this is only needed if not running a server, like when debugging manually.
 
