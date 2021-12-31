@@ -4,8 +4,8 @@ import geocoder
 import data_handler as dh
 import pandas as pd
 
-#from dotenv import load_dotenv
-#load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 ### Flask loads the nearest .env or .flaskenv automatically and does the load_dotenv()
 ### Hence, this is only needed if not running a server, like when debugging manually.
 
@@ -67,7 +67,11 @@ def mapquest_api(start, destination):
 
 #conversion utility
 def degDMStoDecimal(lat_lon):
-    return float(lat_lon[1])+(float(lat_lon[2])/60)+(float(lat_lon[3])/3600)
+    unsigned_lat_lon = float(lat_lon[1])+(float(lat_lon[2])/60)+(float(lat_lon[3])/3600)
+    if lat_lon[4] in ['W', 'S']:
+        return unsigned_lat_lon * -1
+    else:
+        return unsigned_lat_lon
 
 def geocode(location_placename):
     # opencage geocoding api
@@ -76,10 +80,11 @@ def geocode(location_placename):
 
     api_key_opencage = os.environ.get('OPENCAGE_API_KEY')
     g = geocoder.opencage(location_placename, key=api_key_opencage)
+    # if g is not None
     geocoder_response = g.json['DMS']
     lat = geocoder_response['lat']
     lon = geocoder_response['lng']
-    DMSregex = re.compile(r"([0-9]{1,2})°\s([0-9]{1,2})'\s([0-9]{1,2}\.?[0-9]+)''")
-    lat = re.split(DMSregex, lat, maxsplit=3)
-    lon = re.split(DMSregex, lon, maxsplit=3)
+    DMSregex = re.compile(r"([0-9]{1,2})°\s([0-9]{1,2})'\s([0-9]{1,2}\.?[0-9]+)''\s(W|E|N|S)")
+    lat = re.split(DMSregex, lat)
+    lon = re.split(DMSregex, lon)
     return tuple([degDMStoDecimal(lat),degDMStoDecimal(lon)])
