@@ -1,6 +1,7 @@
 import requests, os
 import statistics as stats
 import pandas as pd
+import math
 
 def pollutants(lat, lng):
     api_key_world_aqi = os.environ.get('WORLD_AQI_TOKEN')
@@ -21,9 +22,8 @@ def pollutants(lat, lng):
 def routePollutionScore(route_df):
     radix = 0
     score = []
-    while radix in range(len(route_df)):
+    for radix in range(len(route_df)):
         lat = route_df['latitude'][radix]
         lng = route_df['longitude'][radix]
-        score.append(pollutants(lat,lng))
-        radix += 1
+        score.append(pollutants(math.degrees(lat),math.degrees(lng)))
     return stats.median_high(score)

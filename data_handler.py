@@ -1,26 +1,25 @@
+from re import A
 import pandas as pd
 import math
+import json
 
 def get_data(data):
     return pd.DataFrame(data)
 
 def reduce_dataset(extended_dataframes, dist):
     df = extended_dataframes
-    optimized_df = pd.DataFrame(df.loc[[0]], columns=['latitude','longitude'])
+    optimized_df = pd.DataFrame(columns=['latitude','longitude'])
 
     dist = dist/1000
-    if dist <= 10 or dist<=30:
-        dist_factor = 0.3 * dist
-    else:
-        dist_factor = 30
+    dist_factor = 0.1 * dist
     
     radix = 0
-    while radix in range(len(df)):
-        latA = df['latitude'][radix]
-        lngA = df['longitude'][radix]
-        A = [latA, lngA]
+    while radix < len(df):
         radix1 = radix+1
         while radix1 < len(df):
+            latA = df['latitude'][radix]
+            lngA = df['longitude'][radix]
+            A = [latA, lngA]
             B = [df['latitude'][radix1], df['longitude'][radix1]]
             
             hvs = havesine(A,B)
@@ -28,8 +27,7 @@ def reduce_dataset(extended_dataframes, dist):
                 optimized_df.loc[len(optimized_df)] = B
                 radix = radix1
                 break
-            else:
-                radix1 += 1
+            radix1 += 1
         radix += 1
     
     return optimized_df
@@ -45,3 +43,22 @@ def havesine(A, B):
     c = 2 * math.asin(math.sqrt(a))
     km = 6378 * c
     return km
+
+"""
+#Test Cases
+#bom = [19.0759899, 72.8773928]
+#pnc = [18.521428, 73.8544541]
+#print(havesine(bom,pnc))
+
+with open("tests/sample.txt","r") as file:
+    response = json.load(file)
+
+df_test = get_data(response["routes"][1]["legs"][0]["points"])
+dist_route = response["routes"][1]["summary"]["lengthInMeters"]
+print(len(df_test))
+optimized = reduce_dataset(df_test,dist_route)
+print(len(optimized))
+print(optimized)
+import pollution
+#print(type(pollution.routePollutionScore(optimized)))
+"""
