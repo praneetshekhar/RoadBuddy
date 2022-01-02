@@ -7,7 +7,7 @@ def get_data(data):
     return pd.DataFrame(data)
 
 def reduce_dataset(extended_dataframes, dist):
-    df = extended_dataframes
+    df = extended_dataframes.copy(deep=True)
     optimized_df = pd.DataFrame(columns=['latitude','longitude'])
     df['latitude'] = [math.radians(x) for x in df['latitude']]
     df['longitude'] = [math.radians(x) for x in df['longitude']]
@@ -31,6 +31,9 @@ def reduce_dataset(extended_dataframes, dist):
                 break
             radix1 += 1
         radix += 1
+    
+    optimized_df['latitude'] = [math.degrees(x) for x in optimized_df['latitude']]
+    optimized_df['longitude'] = [math.degrees(x) for x in optimized_df['longitude']]
         
     return optimized_df
 

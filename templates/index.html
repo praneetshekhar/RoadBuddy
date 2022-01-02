@@ -11,9 +11,7 @@
 
 {% block container %}
     {% if directions %}
-    <div class="container_json">
-        {{ directions }}
-    </div>
+        {% include 'map.html' %}
     {% else %}
     <div class="container_form">
         <form action="{{ url_for('index') }}" method="post" class="mapform">
