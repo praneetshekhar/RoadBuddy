@@ -1,33 +1,32 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>RoadBuddy</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-        {% block head %}
-        {% endblock %}
-    </head>
-<body>
-    <header>
-        {% block header %}
-        {% endblock %}
-    </header>
+{% extends "layout.html" %}
 
-    {% if directions_JSON %}
-    <div>
-        {{ directions_JSON }}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
+<body>
+{% block header %}
+    {{ super() }}
+{% endblock %}
+
+{% block container %}
+    {% if directions %}
+    <div class="container_json">
+        {{ directions }}
     </div>
     {% else %}
-    <form action="{{ url_for('index') }}" method="post" id="mapform">
-        <input type="text" name="start-point" placeholder="START"><br>
-        <input type="text" name="destination" placeholder="DESTINATION"><br>
-        <input type="submit">
-    </form>
+    <div class="container_form">
+        <form action="{{ url_for('index') }}" method="post" class="mapform">
+            <label for="start-point">Start</label>
+            <input type="text" name="start-point" placeholder="START"><br>
+            <label for="start-point">Destination</label>
+            <input type="text" name="destination" placeholder="DESTINATION"><br>
+            <input type="submit">
+        </form>
+    </div>
     {% endif %}
+{% endblock %}
 
-    <footer>
-        {% block footer %}
-        
-        {% endblock %}
-    </footer>
-</body>
-</html>
+{% block footer %}
+ {{ super() }}
+{% endblock %}

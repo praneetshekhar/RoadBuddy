@@ -3,6 +3,8 @@ import requests, os, re, json
 import geocoder
 import data_handler as dh
 import pandas as pd
+from pollution import routePollutionScore
+import polyline
 
 #from dotenv import load_dotenv
 #load_dotenv()
@@ -24,9 +26,29 @@ def tomtom_getpoints(start, end):
         route1_dist = response["routes"][1]["summary"]["lengthInMeters"]
         route = dh.get_data(coords)
         route1 = dh.get_data(coords1)
+
         usable_route = dh.reduce_dataset(route, route_dist)
         usable_route1 = dh.reduce_dataset(route1, route1_dist)
-    return {"optimizedRoute1": usable_route, "optimizedRoute2": usable_route1}
+        route1_score = routePollutionScore(usable_route)
+        route2_score = routePollutionScore(usable_route1)
+        if route1_score < route2_score:
+            route = 1
+            least_polluted_route = usable_route
+            cleaned_coords = clean_coords(route)
+        else:
+            route = 2
+            least_polluted_route = usable_route1
+            cleaned_coords = clean_coords(route1)
+        
+        polyline_route = polyline.encode(cleaned_coords)
+    
+    return {"optimizedRoute": least_polluted_route, "polyline": polyline_route}
+
+
+#clean data for polyline utility
+def clean_coords(pandas_route):
+    route_coords = [x for x in zip(pandas_route['latitude'],pandas_route['longitude'])]
+    return route_coords
 
 #Deprecated, waypoints functionality might still be useful
 def mapbox_navigate(start, end):
@@ -46,7 +68,6 @@ def mapbox_navigate(start, end):
         return location_gradients  
 
 #Deprecated
-
 def mapquest_api(start, destination):
     key = "TAfEZarizs3jiXkQ9ZgxvLOVEqIPFuHH"
     url = f"http://www.mapquestapi.com/directions/v2/alternateroutes?key={key}&outFormat=xml"

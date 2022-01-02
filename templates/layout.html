@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <title>RoadBuddy</title>
+        <style>
+            @font-face {
+                font-family: 'TravelingTypewriter';
+                src: url('static/TravelingTypewriter.ttf') format('truetype');
+            }
+        </style>
+        <link rel="stylesheet" href="{{ url_for('static', filename='footer.css') }}">
+        {% endblock %}
+    </head>
+<body>
+    {% block header %}
+    <header>
+        <div id="header-title">
+            <strong>RoadBuddy</strong>
+        </div>
+    </header>
+    {% endblock %}
+    
+    {% block container %}
+    {% endblock %}
+
+    {% block footer %}
+    <footer>
+        <div id="heart-message">
+            <span>Made with</span>
+            <div class="heart-rib">
+                <div class="heart"></div>
+            </div>
+            <span> by </span>
+            <a href="#github" id="name-lnk">Praneet</a>
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+</html>

@@ -9,6 +9,8 @@ def get_data(data):
 def reduce_dataset(extended_dataframes, dist):
     df = extended_dataframes
     optimized_df = pd.DataFrame(columns=['latitude','longitude'])
+    df['latitude'] = [math.radians(x) for x in df['latitude']]
+    df['longitude'] = [math.radians(x) for x in df['longitude']]
 
     dist = dist/1000
     dist_factor = 0.1 * dist
@@ -29,13 +31,13 @@ def reduce_dataset(extended_dataframes, dist):
                 break
             radix1 += 1
         radix += 1
-    
+        
     return optimized_df
 
 
 # Havesine formula for distance between a pair of lat/lng
 def havesine(A, B):
-    A[0], A[1], B[0], B[1] = map(math.radians, [A[0], A[1], B[0], B[1]])
+    #A[0], A[1], B[0], B[1] = map(math.radians, [A[0], A[1], B[0], B[1]])
     dlng = abs(B[1] - A[1])
     dlat = abs(B[0] - A[0])
 

@@ -22,8 +22,13 @@ def pollutants(lat, lng):
 def routePollutionScore(route_df):
     radix = 0
     score = []
+    route_df['latitude'] = [math.degrees(x) for x in route_df['latitude']]
+    route_df['longitude'] = [math.degrees(x) for x in route_df['longitude']]
+
     for radix in range(len(route_df)):
         lat = route_df['latitude'][radix]
         lng = route_df['longitude'][radix]
-        score.append(pollutants(math.degrees(lat),math.degrees(lng)))
+        
+        score.append(pollutants(lat,lng))
+    
     return stats.median_high(score)
