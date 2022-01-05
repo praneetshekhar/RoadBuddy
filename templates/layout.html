@@ -2,39 +2,62 @@
 <html>
     <head>
         {% block head %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>RoadBuddy</title>
         <style>
             @font-face {
                 font-family: 'TravelingTypewriter';
-                src: url('static/TravelingTypewriter.ttf') format('truetype');
+                src: url('static/stylesheets/TravelingTypewriter.ttf') format('truetype');
             }
         </style>
-        <link rel="stylesheet" href="{{ url_for('static', filename='footer.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/footer.css') }}">
         {% endblock %}
     </head>
 <body>
-    {% block header %}
-    <header>
-        <div id="header-title">
-            <strong>RoadBuddy</strong>
-        </div>
-    </header>
-    {% endblock %}
-    
-    {% block container %}
-    {% endblock %}
-
-    {% block footer %}
-    <footer>
-        <div id="heart-message">
-            <span>Made with</span>
-            <div class="heart-rib">
-                <div class="heart"></div>
+    <div id="app-container">
+        {% block header %}
+        <header>
+            <div id="header-title">
+                <strong>RoadBuddy</strong>
             </div>
-            <span> by </span>
-            <a href="https://github.com/praneetshekhar/RoadBuddy" id="name-lnk">Praneet</a>
+        </header>
+        {% endblock %}
+
+        <div id="content-container">
+            {% block container %}
+            <div class="form_container form">
+                <form action="{{ url_for('index') }}" method="post" class="mapform">
+                    <div id="get-endpoints">
+                        <!--<label for="start-point">Start</label><br>-->
+                        <input type="text" name="start-point" placeholder="START" id="start-textbox">
+                        <!--<label for="start-point">Destination</label>-->
+                        <input type="text" name="destination" placeholder="DESTINATION" id="destination-textbox">
+                        <input type="submit" id="submit-points-btn" value="GO">
+                    </div>
+                    <div id="optimization-toggles">
+                        <label for="checkbox_shortest">Least Polluted <input type="checkbox" name="least-polluted" checked value="least-polluted"></label>
+                        <label for="shortest">Shortest <input type="checkbox" name="shortest" value="shortest"></label>
+                        <label for="EV-inclusive">Electric Vehicle <input type="checkbox" name="EV-inclusive" value="electric-v"></label>
+                    </div>        
+                </form>
+            </div>
+            {% endblock %}
         </div>
-    </footer>
-    {% endblock %}
+        
+        {% block footer %}
+        <footer>
+            <div id="heart-message">
+                <span>Made with</span>
+                <div class="heart-rib">
+                    <div class="heart"></div>
+                </div>
+                <span> by </span>
+                <a href="https://github.com/praneetshekhar/RoadBuddy" id="name-lnk">Praneet</a>
+            </div>
+        </footer>
+        {% endblock %}
+    </div>
 </body>
 </html>

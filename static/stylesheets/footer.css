@@ -24,44 +24,43 @@
     flex-direction: row;
     justify-content: center;
     width: 250px;
-    border-top: 0.3px #2c2b2b solid;
+    /*border-top: 0.3px #2c2b2b solid;*/
     margin: 0 auto;
     padding: 7px;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .heart-rib{
     position: relative;
     width: 15px;
     transform: rotate(-45deg);
-    margin-left: 10px;
-    margin-top: 2px;
+    margin-left: 12px;
 }
 
 .heart{
     background: crimson;
-    height: 10px;
-    width: 10px;
+    height: 5px;
+    width: 5px;
     position: relative;
     animation: heartbeat 2s cubic-bezier(0.86,0,0.75,1) 1s infinite forwards normal;
 
 }
 .heart::after{
     content: "";
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background: crimson;
     position: absolute;
-    left: 5px;
+    left: 2.5px;
     border-radius: 50%;
 }
 .heart::before{
     content: "";
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     background: crimson;
     position: absolute;
-    top: -5px;
+    top: -2.5px;
     border-radius: 50%;
 }
 
@@ -74,6 +73,7 @@
     background: grey;
     color: white;
     padding: 1px 0px 0px 2px;
+    border-right: grey 7px solid;
     font-family: 'TravelingTypewriter', monospace;
-    font-size: 12px;
+    font-size: 10px;
 }

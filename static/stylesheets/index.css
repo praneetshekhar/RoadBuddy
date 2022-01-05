@@ -1,0 +1,125 @@
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-width: 100vw;
+    color: #56BC82;
+}
+
+#app-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: #DAFAE8;
+}
+
+header{
+    height: 5%;
+    width: 100vw;
+    background: hsl(146, 43%, 44%);
+    color: #DAFAE8;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#header-title{
+    display: block;
+    position: relative;
+    padding: 10px;
+}
+
+#content-container{
+    width: 98%;
+    height: 90%;
+    display: grid;
+    grid-template-rows: 15% 85%;
+    grid-template-areas: "locations-form" "map";
+    grid-row-gap: 5px;
+    margin-top: 5px;
+}
+.form_container{
+    grid-area: locations-form;
+    display: grid;
+}
+.mapform{
+    display: grid;
+    grid-template-columns: 2fr auto;
+    grid-template-areas: "endpoints-form toggles";
+    grid-gap: 10px;
+    width: max-content;
+}
+#get-endpoints{
+    grid-area: endpoints-form;
+    display: grid;
+    grid-template-areas: "locations-textbox-st submit-btn" "locations-textbox-dest submit-btn";
+}
+#destination-textbox, #start-textbox{
+    border:2px solid #56BC82;
+    border-radius: 5px;
+    padding: 5px;
+
+}
+#start-textbox{
+    grid-area: locations-textbox-st;
+}
+#destination-textbox{
+    grid-area: locations-textbox-dest;
+}
+#submit-points-btn{
+    grid-area: submit-btn;
+    width: 40px;
+    height: 40px;
+    align-self: center;
+    border-radius: 50%;
+    border: 2px solid #56BC82;
+    background: #DAFAE8;
+    color: #56BC82;
+}
+#submit-points-btn:hover{
+    transform: scale(0.95);
+    color: #DAFAE8;
+    background: #56BC82;
+}
+
+#optimization-toggles{
+    grid-area: toggles;
+    display: grid;
+    justify-items: end;
+}
+
+#map-container{
+    grid-area: map;
+}
+
+footer{
+    padding-top: 5px;
+    margin-bottom: 0px;
+    height: 5%;
+}
+
+.route-map{
+    object-position: 50% 50%;
+    object-fit: contain;
+    border: none;
+}
+
+@media screen and (max-width: 480px) and (min-width: 320px) {
+    header{
+        text-align: center;
+    }
+    #app-container{
+        align-items: center;
+    }
+    .mapform{
+        justify-self: center;
+    }
+}
+@media screen and (max-width: 320px) {
+    header{
+        text-align: center;
+    }
+    #app-container{
+        align-items: center;
+    }
+}

@@ -2,27 +2,24 @@
 
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/index.css') }}">
 {% endblock %}
-<body>
+
 {% block header %}
     {{ super() }}
 {% endblock %}
 
 {% block container %}
-    {% if directions %}
-        {% include 'map.html' %}
-    {% else %}
-    <div class="container_form">
-        <form action="{{ url_for('index') }}" method="post" class="mapform">
-            <label for="start-point">Start</label>
-            <input type="text" name="start-point" placeholder="START"><br>
-            <label for="start-point">Destination</label>
-            <input type="text" name="destination" placeholder="DESTINATION"><br>
-            <input type="submit">
-        </form>
-    </div>
+    {{ super() }}
+    <div id="map-container">
+    {% if directions == ['No directions fetched'] %}
+        <span>
+            {{ directions[0] }}
+        </span>
+    {% elif directions %}
+        <iframe src="/route" class="route-map" width="100%" height="100%" loading="lazy"></iframe>
     {% endif %}
+    </div>
 {% endblock %}
 
 {% block footer %}

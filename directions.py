@@ -9,42 +9,35 @@ import folium
 #from dotenv import load_dotenv
 #load_dotenv()
 ### Flask loads the nearest .env or .flaskenv automatically and does the load_dotenv()
-### Hence, this is only needed if not running a server, like when debugging manually.
+### Hence, this is only needed if not running a server, like when debugging manually.        
 
 def tomtom_getpoints(start, end):
     start_geocoded, end_geocoded = geocode(start), geocode(end)
+    
     url = f"https://api.tomtom.com/routing/1/calculateRoute/{start_geocoded[0]},{start_geocoded[1]}:{end_geocoded[0]},{end_geocoded[1]}/json"
-    query_params = {"key": os.environ.get('TOMTOM_KEY'), "maxAlternatives": 1, "routeType": "eco"}
+    #if optimization == 'least-polluted'
+    maxRoutes = 2
+
+    query_params = {"key": os.environ.get('TOMTOM_KEY'), "maxAlternatives": maxRoutes-1, "routeType": "eco"}
     response = requests.request('GET', url, params=query_params)
     response = response.json()
 
-    n_routes = len(response["routes"])
-    if n_routes >= 2:
-        coords = response["routes"][0]["legs"][0]["points"]
-        route_dist = response["routes"][0]["summary"]["lengthInMeters"]
-        coords1 = response["routes"][1]["legs"][0]["points"]
-        route1_dist = response["routes"][1]["summary"]["lengthInMeters"]
-        
-        route = dh.get_data(coords)
-        route1 = dh.get_data(coords1)
+    routes = []
+    if 'routes' in response:
+        n_routes = len(response['routes'])
+        if n_routes > 0:
 
-        usable_route = dh.reduce_dataset(route, route_dist) #for pollution score
-        usable_route1 = dh.reduce_dataset(route1, route1_dist) #for pollution score
-        route1_score = routePollutionScore(usable_route)
-        route2_score = routePollutionScore(usable_route1)       
-        if route1_score < route2_score:
-            route_no = 1
-            least_polluted_route = usable_route
-            cleaned_coords = clean_coords(route)
-        else:
-            route_no = 2
-            least_polluted_route = usable_route1
-            cleaned_coords = clean_coords(route1)
- 
-        folium_map_object = get_folium_map(cleaned_coords, start, end)
-        folium_map_object.save('templates/map.html')
+            for i in range(n_routes):
+                routes.append(get_points(response, i))
+                usable_route = dh.reduce_dataset(routes, i) # reduce dataset for pollution score
+                routes[i].update({'routePollutionScore': routePollutionScore(usable_route)})
     
-    return {"optimizedRoute": least_polluted_route}
+    return routes
+
+# get points from API data
+def get_points(tomtom_api_response, route_number):
+    return {'coords': tomtom_api_response["routes"][route_number]["legs"][0]["points"],
+    'route_distance': tomtom_api_response["routes"][route_number]["summary"]["lengthInMeters"]}
 
 
 #clean data for polyline utility
@@ -58,14 +51,15 @@ def get_folium_map(route_coords_as_list, start, end):
     popup_start = start + " " + str(route_coords_as_list[0])
     popup_end = end + " " +str(route_coords_as_list[len(route_coords_as_list)-1])
 
-    map = folium.Map(location=route_coords_as_list[0], width='30%', height='70%', left="35%")
+    map = folium.Map(location=route_coords_as_list[0], width='100%', height='100%')
     folium.Marker(location=route_coords_as_list[0], popup=popup_start, tooltip=start).add_to(map)
     folium.Marker(location=route_coords_as_list[len(route_coords_as_list)-1], popup=popup_end, tooltip=end).add_to(map)
     folium.vector_layers.PolyLine(route_coords_as_list).add_to(map)
     map.fit_bounds([list(route_coords_as_list[0]), list(route_coords_as_list[len(route_coords_as_list)-1])])
 
     return map
-    
+
+
 
 
 #Deprecated, waypoints functionality might still be useful

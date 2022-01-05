@@ -19,6 +19,8 @@ def pollutants(lat, lng):
 
     return pollution_loc_score
 
+##  Major overhaul upcoming
+# applying machine learning algorithms of various kinds and magnitudes to get the best out of the data is the next step
 def routePollutionScore(route_df):
     radix = 0
     score = []

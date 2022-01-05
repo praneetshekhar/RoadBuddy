@@ -1,27 +1,25 @@
 from re import A
 import pandas as pd
-import math
-import json
+import numpy as np
+
 
 def get_data(data):
     return pd.DataFrame(data)
 
-def reduce_dataset(extended_dataframes, dist):
-    df = extended_dataframes.copy(deep=True)
-    optimized_df = pd.DataFrame(columns=['latitude','longitude'])
-    df['latitude'] = [math.radians(x) for x in df['latitude']]
-    df['longitude'] = [math.radians(x) for x in df['longitude']]
+def reduce_dataset(routes_list, route_number):
+    
+    df = get_data(routes_list[route_number]['coords'])
 
-    dist = dist/1000
+    optimized_df = pd.DataFrame(columns=['latitude','longitude'])
+    
+    dist = routes_list[route_number]['route_distance']/1000
     dist_factor = 0.1 * dist
     
     radix = 0
     while radix < len(df):
         radix1 = radix+1
         while radix1 < len(df):
-            latA = df['latitude'][radix]
-            lngA = df['longitude'][radix]
-            A = [latA, lngA]
+            A = [df['latitude'][radix], df['longitude'][radix]]
             B = [df['latitude'][radix1], df['longitude'][radix1]]
             
             hvs = havesine(A,B)
@@ -32,21 +30,24 @@ def reduce_dataset(extended_dataframes, dist):
             radix1 += 1
         radix += 1
     
-    optimized_df['latitude'] = [math.degrees(x) for x in optimized_df['latitude']]
-    optimized_df['longitude'] = [math.degrees(x) for x in optimized_df['longitude']]
-        
-    return optimized_df
+    #optimized_df['latitude'] = [np.degrees(x) for x in optimized_df['latitude']]
+    #optimized_df['longitude'] = [np.degrees(x) for x in optimized_df['longitude']]
+            
+    return optimized_df #usable route for pollution score calculation
 
 
 # Havesine formula for distance between a pair of lat/lng
 def havesine(A, B):
-    #A[0], A[1], B[0], B[1] = map(math.radians, [A[0], A[1], B[0], B[1]])
+    A[0], A[1], B[0], B[1] = map(np.radians, [A[0], A[1], B[0], B[1]])
     dlng = abs(B[1] - A[1])
     dlat = abs(B[0] - A[0])
 
-    a = math.sin(dlat/2.0)**2 + math.cos(A[0]) * math.cos(B[0]) * math.sin(dlng/2.0)**2
-    c = 2 * math.asin(math.sqrt(a))
+    a = np.sin(dlat/2.0)**2 + np.cos(A[0]) * np.cos(B[0]) * np.sin(dlng/2.0)**2
+    c = 2 * np.arcsin(np.sqrt(a))
     km = 6378 * c
+    
+    A[0], A[1], B[0], B[1] = map(np.degrees, [A[0], A[1], B[0], B[1]])
+
     return km
 
 """
