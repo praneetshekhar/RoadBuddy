@@ -22,9 +22,9 @@ def tomtom_getpoints(start, end):
     response = requests.request('GET', url, params=query_params)
     response = response.json()
 
-    sample_dump = open('tests/sample.txt', 'w')
-    json.dump(response, sample_dump)
-    sample_dump.close()
+    #sample_dump = open('tests/sample.txt', 'w')
+    #json.dump(response, sample_dump)
+    #sample_dump.close()
     
     routes = []
     if 'routes' in response:
@@ -52,7 +52,7 @@ def clean_coords(route_as_pandas_df):
 # mapping utility
 def get_folium_map(route_coords_as_list, start, end):
 
-    start_time = time.perf_counter()
+    #start_time = time.perf_counter()
 
     popup_start = start + " " + str(route_coords_as_list[0])
     popup_end = end + " " +str(route_coords_as_list[len(route_coords_as_list)-1])
@@ -63,9 +63,9 @@ def get_folium_map(route_coords_as_list, start, end):
     folium.vector_layers.PolyLine(route_coords_as_list).add_to(map)
     map.fit_bounds([list(route_coords_as_list[0]), list(route_coords_as_list[len(route_coords_as_list)-1])])
 
-    end_time = time.perf_counter()
-    duration = end_time - start_time
-    print("folium: ",duration)
+    #end_time = time.perf_counter()
+    #duration = end_time - start_time
+    #print("folium: ",duration)
 
     return map
 
