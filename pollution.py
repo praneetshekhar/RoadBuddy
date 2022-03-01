@@ -26,11 +26,12 @@ def pollutants(lat, lng):
         pollution_loc_score = stats.median_high([stats.median_high(pollutant_vector), aqi])
         
         return pollution_loc_score
+    
+    else:
+        return -1
     #end_time = time.perf_counter()
     #duration = end_time - start_time
     #print("pollutants: ",duration)
-
-    return -1
 
 ##  Major overhaul upcoming
 # applying machine learning algorithms of various kinds and magnitudes to get the best out of the data is the next step
@@ -45,7 +46,11 @@ def routePollutionScore(route_df):
         lat = lat_lng[radix][0]
         lng = lat_lng[radix][1]
         
-        score.append(pollutants(lat,lng))
+        pollScore = pollutants(lat,lng)
+        if pollScore != -1:
+            score.append(pollScore)
+        else:
+            score.append(0)
     
     end_time = time.perf_counter()
     duration = end_time - start_time
