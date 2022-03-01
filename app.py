@@ -1,16 +1,21 @@
 from flask import Flask, render_template, request
+#from flask_sqlalchemy import SQLAlchemy
 from directions import tomtom_getpoints, get_folium_map, clean_coords
 import pandas as pd
 import json
 import re
 
 app = Flask(__name__)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/cache.db'
+#db = SQLAlchemy(app)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         start = request.form['start-point']
         destination = request.form['destination']
+        
         #optimization_toggle = request.form['optimization']
         #regexp = re.compile(r'[^a-zA-Z0-9\s]+')
         #start = re.sub("\s+",re.sub(regexp, start, " "), " ")
@@ -46,4 +51,8 @@ def render_map():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
-    
+
+
+
+## requirements updation
+#https://pynwb.readthedocs.io/en/stable/update_requirements.html
