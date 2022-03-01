@@ -12,7 +12,7 @@ def pollutants(lat, lng):
 
     key = os.environ.get('OPENWEATHER_API_KEY')
     query = {"lat": lat, "lon": lng, "appid": key}
-    url_for_current_data = 'http://api.openweathermap.org/data/2.5/air_pollution
+    url_for_current_data = 'http://api.openweathermap.org/data/2.5/air_pollution'
 
     full_response = requests.request('GET', url_for_current_data, params=query)
     if full_response.status_code == 200:
