@@ -12,7 +12,7 @@ def pollutants(lat, lng):
 
     key = os.environ.get('OPENWEATHER_API_KEY')
     query = {"lat": lat, "lon": lng, "appid": key}
-    url_for_current_data = 'http://api.openweathermap.org/data/2.5/air_pollution'
+    url_for_current_data = 'http://api.openweathermap.org/data/2.5/air_pollution
 
     full_response = requests.request('GET', url_for_current_data, params=query)
     if full_response.status_code == 200:
@@ -24,12 +24,13 @@ def pollutants(lat, lng):
         pollutant_vector = list(pollutants)
         aqi = full_response['list'][0]['main']['aqi']
         pollution_loc_score = stats.median_high([stats.median_high(pollutant_vector), aqi])
-
+        
+        return pollution_loc_score
     #end_time = time.perf_counter()
     #duration = end_time - start_time
     #print("pollutants: ",duration)
 
-    return pollution_loc_score
+    return -1
 
 ##  Major overhaul upcoming
 # applying machine learning algorithms of various kinds and magnitudes to get the best out of the data is the next step
