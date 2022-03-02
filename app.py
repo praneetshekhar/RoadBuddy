@@ -27,11 +27,11 @@ def index():
         else:
             directions_df = pd.DataFrame(directions_Collection)
             
-            print(directions_df['routePollutionScore'].to_list())
+            #print(directions_df['routePollutionScore'].to_list())
             least_polluted_route_number = directions_df['routePollutionScore'].idxmax()
 
             least_polluted_route = directions_df['coords'][least_polluted_route_number]
-            print(directions_df)
+            #print(directions_df)
             route_coords_list = clean_coords(pd.DataFrame(least_polluted_route))
 
             folium_map_object = get_folium_map(route_coords_list, start, destination)

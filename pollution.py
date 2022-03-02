@@ -36,7 +36,7 @@ def pollutants(lat, lng):
 ##  Major overhaul upcoming
 # applying machine learning algorithms of various kinds and magnitudes to get the best out of the data is the next step
 def routePollutionScore(route_df):
-    start_time = time.perf_counter()
+    #start_time = time.perf_counter()
     radix = 0
     score = []
     
@@ -52,8 +52,8 @@ def routePollutionScore(route_df):
         else:
             score.append(0)
     
-    end_time = time.perf_counter()
-    duration = end_time - start_time
-    print("routepollutionscore: ",duration)
+    #end_time = time.perf_counter()
+    #duration = end_time - start_time
+    #print("routepollutionscore: ",duration)
 
     return stats.median_high(score)

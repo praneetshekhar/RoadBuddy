@@ -36,7 +36,7 @@ def reduce_dataset(routes_list, route_number):
     print("reduce_dataset - np: ", duration)
     '''
 
-    start_time = time.perf_counter()
+    #start_time = time.perf_counter()
 
     #vect_df = pd.DataFrame(col)
 
@@ -58,12 +58,12 @@ def reduce_dataset(routes_list, route_number):
                 break
             radix2 += 1
 
-    end_time = time.perf_counter()
-    duration = end_time - start_time
-    print("reduce_dataset - sklearn: ",duration)
+    #end_time = time.perf_counter()
+    #duration = end_time - start_time
+    #print("reduce_dataset - sklearn: ",duration)
     #optimized_df['latitude'] = [np.degrees(x) for x in optimized_df['latitude']]
     #optimized_df['longitude'] = [np.degrees(x) for x in optimized_df['longitude']]
-    print(len(optimized_df))
+    #print(len(optimized_df))
     return optimized_df #usable route for pollution score calculation
 
 
