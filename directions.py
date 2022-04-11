@@ -91,7 +91,7 @@ def mapbox_navigate(start, end):
 
 #Deprecated
 def mapquest_api(start, destination):
-    key = "TAfEZarizs3jiXkQ9ZgxvLOVEqIPFuHH"
+    key = os.environ.get('MAPQUEST_KEY')
     url = f"http://www.mapquestapi.com/directions/v2/alternateroutes?key={key}&outFormat=xml"
     headers = {"content-type": "application/json"}
     payload = json.dumps({
