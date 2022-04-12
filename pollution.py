@@ -1,5 +1,5 @@
 import requests, os
-import statistics as stats
+import statistics as stat
 import pandas as pd
 import math, time
 
@@ -23,9 +23,9 @@ def pollutants(lat, lng):
         #pollutant_vector = [x['v'] for x in list(pollutants)]
         pollutant_vector = list(pollutants)
         aqi = full_response['list'][0]['main']['aqi']
-        pollution_loc_score = stats.median_high([stats.median_high(pollutant_vector), aqi])
+        location_pollution_score = stat.median(pollutant_vector) * aqi
         
-        return pollution_loc_score
+        return location_pollution_score
     
     else:
         return -1
@@ -56,4 +56,4 @@ def routePollutionScore(route_df):
     #duration = end_time - start_time
     #print("routepollutionscore: ",duration)
 
-    return stats.median_high(score)
+    return stat.median(score)
