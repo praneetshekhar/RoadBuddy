@@ -142,3 +142,6 @@ tests/
 
 # macOS specific
 .DS_Store
+
+# application specific
+templates/map.html
