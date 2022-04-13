@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RoadBuddy</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/404.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+	<h1>{% if errCode == 404 %}
+		Uh, oh! Seems like you're lost😵
+		{% elif errCode >= 500 %}
+		I messed up :/ Bad robo 🤖 
+		{% elif errCode >= 400 %}
+		This robo runs on correct info,<br>
+		please check at your end.😼
+	</h1>
+	<div class="robots">
+		<div class="android"> 
+			<div class="head"> 
+				<div class="eyes"> 
+					<div class="left_eye">&#215;</div> 
+					<div class="right_eye">&#215;</div>
+				</div> 
+			</div> 
+			<div class="upper_body"> 
+				<a href="{{ url_for('index') }}">
+					<div class="left_arm"></div>
+				</a>
+				<div class="torso">{{ errCode }}</div> 
+				<div class="right_arm"></div> 
+			</div> 
+			<div class="lower_body"> 
+				<div class="left_leg"></div> 
+				<div class="right_leg"></div> 
+			</div> 
+		</div>
+	</div>
+</body>
+</html>
