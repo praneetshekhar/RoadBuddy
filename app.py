@@ -1,3 +1,4 @@
+from errno import errorcode
 from flask import Flask, render_template, request
 #from flask_sqlalchemy import SQLAlchemy
 from directions import tomtom_getpoints, get_folium_map, clean_coords
@@ -17,7 +18,7 @@ def index():
         destination = request.form['destination']
         
         #optimization_toggle = request.form['optimization']
-        #regexp = re.compile(r'[^a-zA-Z0-9\s]+')
+        #regexp = re.compile(r'^[a-zA-Z\s]+[0-9]{0,}')
         #start = re.sub("\s+",re.sub(regexp, start, " "), " ")
         #destination = re.sub("\s+",re.sub(regexp, destination, " "), " ")
 
@@ -41,13 +42,18 @@ def index():
     else:
         return render_template('index.html', directions=None) 
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
 
 @app.route('/route')
 def render_map():
     return render_template('map.html')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error.html', errorCode=404), 404
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('error.html', errorCode=500), 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

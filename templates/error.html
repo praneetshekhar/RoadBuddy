@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Uh Oh! You're Lost</title>
+	<title>RoadBuddy</title>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/404.css') }}">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
-	<h1>Seems like you're lost</h1>
+	<h1>{% if errorCode == 404 %}
+		Uh, oh! Seems like you're lost😵
+		{% elif errorCode >= 500 %}
+		I messed up :/ Bad robo 🤖 
+		{% elif errorCode >= 400 %}
+		This robo runs on correct info,<br>
+		please check at your end.😼
+		{% endif %}
+	</h1>
 	<div class="robots">
 		<div class="android"> 
 			<div class="head"> 
@@ -19,7 +27,7 @@
 				<a href="{{ url_for('index') }}">
 					<div class="left_arm"></div>
 				</a>
-				<div class="torso">404</div> 
+				<div class="torso">{{ errorCode }}</div> 
 				<div class="right_arm"></div> 
 			</div> 
 			<div class="lower_body"> 
