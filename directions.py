@@ -9,7 +9,7 @@ import folium
 #from dotenv import load_dotenv
 #load_dotenv()
 ### Flask loads the nearest .env or .flaskenv automatically and does the load_dotenv()
-### Hence, this is only needed if not running a server, like when debugging manually.        
+### Hence, this is only needed if not running a flask instance, like when running via gunicorn.
 
 def tomtom_getpoints(start, end):
     start_geocoded, end_geocoded = geocode(start), geocode(end)
@@ -71,7 +71,7 @@ def get_folium_map(route_coords_as_list, start, end):
 
 
 
-
+"""
 #Deprecated, waypoints functionality might still be useful
 def mapbox_navigate(start, end):
     # mapbox api
@@ -115,6 +115,7 @@ def degDMStoDecimal(lat_lon):
         return unsigned_lat_lon * -1
     else:
         return unsigned_lat_lon
+"""
 
 def geocode(location_placename):
     # opencage geocoding api
@@ -124,10 +125,14 @@ def geocode(location_placename):
     api_key_opencage = os.environ.get('OPENCAGE_API_KEY')
     g = geocoder.opencage(location_placename, key=api_key_opencage)
     # if g is not None
-    geocoder_response = g.json['DMS']
-    lat = geocoder_response['lat']
-    lon = geocoder_response['lng']
-    DMSregex = re.compile(r"([0-9]{1,2})°\s([0-9]{1,2})'\s([0-9]{1,2}\.?[0-9]+)''\s(W|E|N|S)")
-    lat = re.split(DMSregex, lat)
-    lon = re.split(DMSregex, lon)
-    return tuple([degDMStoDecimal(lat),degDMStoDecimal(lon)])
+    #geocoder_response = g.json['DMS']
+    #lat = geocoder_response['lat']
+    #lon = geocoder_response['lng']
+    #DMSregex = re.compile(r"([0-9]{1,2})°\s([0-9]{1,2})'\s([0-9]{1,2}\.?[0-9]+)''\s(W|E|N|S)")
+    #lat = re.split(DMSregex, lat)
+    #lon = re.split(DMSregex, lon)
+    if g.json['status'] == 'OK':
+        lat = g.json['lat']
+        lng = g.json['lng']
+    #return tuple([degDMStoDecimal(lat),degDMStoDecimal(lon)])
+    return tuple([lat, lng])
