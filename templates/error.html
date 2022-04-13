@@ -6,11 +6,11 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
-	<h1>{% if errCode == 404 %}
+	<h1>{% if errorCode == 404 %}
 		Uh, oh! Seems like you're lost😵
-		{% elif errCode >= 500 %}
+		{% elif errorCode >= 500 %}
 		I messed up :/ Bad robo 🤖 
-		{% elif errCode >= 400 %}
+		{% elif errorCode >= 400 %}
 		This robo runs on correct info,<br>
 		please check at your end.😼
 	</h1>
@@ -26,7 +26,7 @@
 				<a href="{{ url_for('index') }}">
 					<div class="left_arm"></div>
 				</a>
-				<div class="torso">{{ errCode }}</div> 
+				<div class="torso">{{ errorCode }}</div> 
 				<div class="right_arm"></div> 
 			</div> 
 			<div class="lower_body"> 

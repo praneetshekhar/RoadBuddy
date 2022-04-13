@@ -1,3 +1,4 @@
+from errno import errorcode
 from flask import Flask, render_template, request
 #from flask_sqlalchemy import SQLAlchemy
 from directions import tomtom_getpoints, get_folium_map, clean_coords
@@ -48,9 +49,11 @@ def render_map():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('error.html', errCode=404), 404
+    return render_template('error.html', errorCode=404), 404
 
-@app.error()
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('error.html', errorCode=500), 500
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
