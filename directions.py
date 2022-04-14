@@ -14,7 +14,7 @@ import folium
 def tomtom_getpoints(start, end):
     start_geocoded, end_geocoded = geocode(start), geocode(end)
     routes = []
-    
+
     if start_geocoded == (None, None) or end_geocoded ==(None, None):
         pass
     else:
@@ -73,7 +73,7 @@ def geocode(location_placename):
     
     lat, lng = None, None
 
-    if g.json['status'] == 'OK':
+    if g.json is not None:
         lat = g.json['lat']
         lng = g.json['lng']
     
