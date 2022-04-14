@@ -1,5 +1,5 @@
 from flask.globals import request
-import requests, os, re, json, time
+import requests, os, re, json
 import geocoder
 import data_handler as dh
 import pandas as pd
@@ -13,24 +13,27 @@ import folium
 
 def tomtom_getpoints(start, end):
     start_geocoded, end_geocoded = geocode(start), geocode(end)
-    
-    url = f"https://api.tomtom.com/routing/1/calculateRoute/{start_geocoded[0]},{start_geocoded[1]}:{end_geocoded[0]},{end_geocoded[1]}/json"
-    #if optimization == 'least-polluted'
-    maxRoutes = 2
-
-    query_params = {"key": os.environ.get('TOMTOM_KEY'), "maxAlternatives": maxRoutes-1, "routeType": "eco"}
-    response = requests.request('GET', url, params=query_params)
-    response = response.json()
-    
     routes = []
-    if 'routes' in response:
-        n_routes = len(response['routes'])
-        if n_routes > 0:
+    
+    if start_geocoded == (None, None) or end_geocoded ==(None, None):
+        pass
+    else:
+        url = f"https://api.tomtom.com/routing/1/calculateRoute/{start_geocoded[0]},{start_geocoded[1]}:{end_geocoded[0]},{end_geocoded[1]}/json"
+        #if optimization == 'least-polluted'
+        maxRoutes = 2
 
-            for i in range(n_routes):
-                routes.append(get_points(response, i))
-                usable_route = dh.reduce_dataset(routes, i) # reduce dataset for pollution score
-                routes[i].update({'routePollutionScore': routePollutionScore(usable_route)})
+        query_params = {"key": os.environ.get('TOMTOM_KEY'), "maxAlternatives": maxRoutes-1, "routeType": "eco"}
+        response = requests.request('GET', url, params=query_params)
+        response = response.json()
+        
+        if 'routes' in response:
+            n_routes = len(response['routes'])
+            if n_routes > 0:
+
+                for i in range(n_routes):
+                    routes.append(get_points(response, i))
+                    usable_route = dh.reduce_dataset(routes, i) # reduce dataset for pollution score
+                    routes[i].update({'routePollutionScore': routePollutionScore(usable_route)})
     
     return routes
 
@@ -68,6 +71,8 @@ def geocode(location_placename):
     api_key_opencage = os.environ.get('OPENCAGE_API_KEY')
     g = geocoder.opencage(location_placename, key=api_key_opencage)
     
+    lat, lng = None, None
+
     if g.json['status'] == 'OK':
         lat = g.json['lat']
         lng = g.json['lng']
