@@ -63,7 +63,7 @@
     position: relative;
     margin: 2.5pt 2.5pt 0 2.5pt;
     border-radius: 3px;
-    animation: heartbeat 3s cubic-bezier(0.86,0,0.75,1) 3s infinite forwards normal;
+    animation: heartbeat 5s cubic-bezier(0.86,0,0.75,1) 3s infinite forwards normal;
 
 }
 .heart::after{
