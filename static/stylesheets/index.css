@@ -30,29 +30,31 @@ header{
 }
 
 #content-container{
-    width: 98%;
+    width: 100%;
     height: 90%;
     display: grid;
     grid-template-rows: 15% 85%;
     grid-template-areas: "locations-form" "map";
     grid-row-gap: 5px;
-    margin-top: 5px;
 }
 .form_container{
     grid-area: locations-form;
     display: grid;
+    margin-left: 5px;
+    margin-top: 5px;
 }
 .mapform{
     display: grid;
     grid-template-columns: 2fr auto;
     grid-template-areas: "endpoints-form toggles";
-    grid-gap: 10px;
+    gap: 10px;
     width: max-content;
 }
 #get-endpoints{
     grid-area: endpoints-form;
     display: grid;
     grid-template-areas: "locations-textbox-st submit-btn" "locations-textbox-dest submit-btn";
+    gap: 10px 3px;
 }
 #destination-textbox, #start-textbox{
     border:2px solid #56BC82;
@@ -66,6 +68,10 @@ header{
 #destination-textbox{
     grid-area: locations-textbox-dest;
 }
+.endpoint-input-text:focus, .endpoint-input-text:hover{
+    outline: 0;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
 #submit-points-btn{
     grid-area: submit-btn;
     width: 40px;
@@ -73,19 +79,23 @@ header{
     align-self: center;
     border-radius: 50%;
     border: 2px solid #56BC82;
-    background: #DAFAE8;
-    color: #56BC82;
+    background: #56BC82;
+    color: #F1FCFC;
 }
 #submit-points-btn:hover{
-    transform: scale(0.95);
-    color: #DAFAE8;
-    background: #56BC82;
+    transform: scale(0.99);
+    color: #F1FCFC;
+    background: #47AD73;
+    border: 2px solid #47AD73;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
 }
 
 #optimization-toggles{
     grid-area: toggles;
     display: grid;
     justify-items: end;
+    font-family: sans-serif;
+    font-size: smaller;
 }
 
 #map-container{
@@ -122,4 +132,8 @@ footer{
     #app-container{
         align-items: center;
     }
+}
+
+::selection{
+    background-color: transparent;
 }
